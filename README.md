@@ -1,12 +1,12 @@
 # Tweet Feed plugin for Craft CMS 3.x
 
-Get the latest tweets from from a Twitter handle with your own design
+Get the latest tweets from a Twitter handle with your own design
 
 ![Screenshot](resources/img/plugin-logo.png)
 
 ## Requirements
 
-This plugin requires Craft CMS 3.5.0 or later. We utilise Guzzle 6 and up (7 included).
+This plugin requires Craft CMS 3.5.0 or later. We utilise Guzzle 6 and up (7 included) and Twitter v2.0.
 
 ## Installation
 
