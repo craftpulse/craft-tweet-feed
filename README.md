@@ -6,7 +6,7 @@ Get the latest tweets from your own Twitter handle
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.23 or later.
+This plugin requires Craft CMS 3.5.0 or later.
 
 ## Installation
 
