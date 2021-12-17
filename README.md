@@ -74,6 +74,22 @@ To provide these parameters for our plugin, use the following example. You can t
 {% endfor %}
 ```
 
+#### Use cache tag to reduce calls
+There is a limit on API calls per day. If you have a high traffic site, we recommend using the `cache` tag from CraftCMS to reduce calls.
+
+For example:
+```
+{% cache for 1 day %}
+   {% set tweets = craft.tweetfeed.tweets(3,'author_id,context_annotations','&exclude=retweets,replies&user.fields=id') %}
+   
+   {% for tweet in tweets %}
+      <div>
+          <h3>{{ tweet.text }}</h3>
+      </div>
+   {% endfor %}
+{% endcache %}
+```
+
 ## Tweet Feed Roadmap
 
 Some updates to do and ideas for potential features:
