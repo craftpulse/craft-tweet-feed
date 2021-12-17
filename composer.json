@@ -11,13 +11,14 @@
         "tweetfeed"
     ],
     "support": {
-        "docs": "https://github.com/percipiolondon/tweet/blob/master/README.md",
-        "issues": "https://github.com/percipiolondon/tweet/issues"
+        "email": "support@percipio.london",
+        "docs": "https://github.com/percipioglobal/craft-tweet-feed/blob/master/README.md",
+        "issues": "https://github.com/percipioglobal/craft-tweet-feed/issues",
     },
     "license": "MIT",
     "authors": [
         {
-            "name": "percipiolondon",
+            "name": "Percipio.London",
             "homepage": "https://percipio.london"
         }
     ],
