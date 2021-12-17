@@ -1,0 +1,42 @@
+{
+    "name": "percipiolondon/craft-tweet-feed",
+    "description": "Get the latest tweets from your own Twitter handle",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "tweetfeed"
+    ],
+    "support": {
+        "docs": "https://github.com/percipiolondon/tweet/blob/master/README.md",
+        "issues": "https://github.com/percipiolondon/tweet/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "percipiolondon",
+            "homepage": "https://percipio.london"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.5.0",
+        "guzzlehttp/oauth-subscriber": "^0.5"
+    },
+    "autoload": {
+        "psr-4": {
+          "percipiolondon\\tweetfeed\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Tweet Feed",
+        "handle": "tweetfeed",
+        "developer": "percipiolondon",
+        "developerUrl": "https://percipio.london",
+        "documentationUrl": "https://github.com/percipiolondon/craft-tweet/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/percipiolondon/craft-tweet/master/CHANGELOG.md",
+        "class": "percipiolondon\\tweetfeed\\TweetFeed"
+    }
+}

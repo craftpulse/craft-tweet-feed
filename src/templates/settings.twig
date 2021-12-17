@@ -1,0 +1,57 @@
+{% import "_includes/forms" as forms %}
+
+<h2>Generate Twitter keys</h2>
+
+<p>Go to the <a href="https://developer.twitter.com/en/portal/dashboard" target="_blank">Developers Portal</a> and make a new app. Make sure it’s not a standalone app because we use the Twitter API 2.0. Create an OAuth 1.0a and paste the tokens underneath.</p>
+<p>Enter your Twitter handle inside <a href="https://codeofaninja.com/tools/find-twitter-id/" target="_blank">this site</a> and paste it into the Twitter User ID field.</p>
+
+{{ forms.autosuggestField({
+    label: 'API Key',
+    instructions: 'Enter the Twitter API key here',
+    id: 'apiKey',
+    name: 'apiKey',
+    suggestEnvVars: true,
+    required: true,
+    value: settings['apiKey']})
+}}
+
+{{ forms.autosuggestField({
+    label: 'API Key Secret',
+    instructions: 'Enter the Twitter API key secret here',
+    id: 'apiKeySecret',
+    name: 'apiKeySecret',
+    suggestEnvVars: true,
+    required: true,
+    value: settings['apiKeySecret']})
+}}
+
+{{ forms.autosuggestField({
+    label: 'Access Token',
+    instructions: 'Enter the access token key here',
+    id: 'token',
+    name: 'token',
+    suggestEnvVars: true,
+    required: true,
+    value: settings['token']})
+}}
+
+{{ forms.autosuggestField({
+    label: 'Access Token Secret',
+    instructions: 'Enter the access token secret key here',
+    id: 'tokenSecret',
+    name: 'tokenSecret',
+    suggestEnvVars: true,
+    required: true,
+    value: settings['tokenSecret']})
+}}
+
+{{ forms.autosuggestField({
+    label: 'Twitter User ID',
+    instructions: 'Enter the Twitter user you want to fetch tweets from',
+    id: 'userId',
+    name: 'userId',
+    suggestEnvVars: true,
+    required: true,
+    value: settings['userId']})
+}}
+
