@@ -2,7 +2,7 @@
     "name": "percipiolondon/craft-tweet-feed",
     "description": "Get the latest tweets from a Twitter handle with your own design",
     "type": "craft-plugin",
-    "version": "1.0.2",
+    "version": "4.0.0-beta.1",
     "keywords": [
         "craft",
         "cms",
@@ -23,12 +23,12 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.5.0",
+        "craftcms/cms": "^4.0.0-alpha",
         "guzzlehttp/oauth-subscriber": "^0.6.0"
     },
     "autoload": {
         "psr-4": {
-          "percipiolondon\\tweetfeed\\": "src/"
+            "percipiolondon\\tweetfeed\\": "src/"
         }
     },
     "extra": {

@@ -13,7 +13,7 @@ class Settings extends Model
     public $tokenSecret;
     public $userId;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['apiKey', 'apiKeySecret', 'token', 'tokenSecret', 'userId'], 'required'],
