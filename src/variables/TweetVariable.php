@@ -12,8 +12,6 @@ namespace percipiolondon\tweetfeed\variables;
 
 use percipiolondon\tweetfeed\TweetFeed;
 
-use Craft;
-
 /**
  * @author    percipiolondon
  * @package   Tweet
@@ -29,18 +27,18 @@ class TweetVariable
         //The max_results expects a number between 5 and 100
         $count = $amount;
 
-        if($count && $count > 100){
+        if ($count && $count > 100) {
             $count = 100;
         }
 
-        if($count && $count < 5){
+        if ($count && $count < 5) {
             $count = 5;
         }
 
         $tweets = TweetFeed::$plugin->tweets->getTweets($count, $fields, $params);
         $tweets = array_key_exists('data', $tweets) ? $tweets['data'] : [];
 
-        if($amount && $amount < 5){
+        if ($amount && $amount < 5) {
             $tweets = array_slice($tweets, 0, $amount);
         }
 

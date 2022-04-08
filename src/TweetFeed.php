@@ -10,14 +10,12 @@
 
 namespace percipiolondon\tweetfeed;
 
-use percipiolondon\tweetfeed\models\Settings;
-use percipiolondon\tweetfeed\services\TweetService;
-use percipiolondon\tweetfeed\variables\TweetVariable;
-
 use Craft;
 use craft\base\Plugin;
 use craft\web\twig\variables\CraftVariable;
-
+use percipiolondon\tweetfeed\models\Settings;
+use percipiolondon\tweetfeed\services\TweetService;
+use percipiolondon\tweetfeed\variables\TweetVariable;
 use yii\base\Event;
 
 /**
@@ -71,7 +69,7 @@ class TweetFeed extends Plugin
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event) {
+            function(Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('tweetfeed', TweetVariable::class);
@@ -104,7 +102,7 @@ class TweetFeed extends Plugin
         return Craft::$app->view->renderTemplate(
             'tweetfeed/settings',
             [
-                'settings' => $this->getSettings()
+                'settings' => $this->getSettings(),
             ]
         );
     }

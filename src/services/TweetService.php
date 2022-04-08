@@ -10,14 +10,13 @@
 
 namespace percipiolondon\tweetfeed\services;
 
+use Craft;
+use craft\base\Component;
 use craft\helpers\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use percipiolondon\tweetfeed\TweetFeed;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
-
-use Craft;
-use craft\base\Component;
+use percipiolondon\tweetfeed\TweetFeed;
 use yii\base\Exception;
 
 /**
@@ -41,7 +40,7 @@ class TweetService extends Component
         if (
             empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKey)) ||
             empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKeySecret)) ||
-            empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->token) ) ||
+            empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->token)) ||
             empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->tokenSecret)) ||
             empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->userId))
         ) {
@@ -49,20 +48,20 @@ class TweetService extends Component
         }
 
         $middleware = new Oauth1([
-            'consumer_key'    => Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKey),
+            'consumer_key' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKey),
             'consumer_secret' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKeySecret),
-            'token'           => Craft::parseEnv(TweetFeed::$plugin->getSettings()->token),
-            'token_secret'    => Craft::parseEnv(TweetFeed::$plugin->getSettings()->tokenSecret)
+            'token' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->token),
+            'token_secret' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->tokenSecret)
         ]);
         $stack->push($middleware);
 
         $client = new Client([
             'base_uri' => 'https://api.twitter.com/2/',
             'handler' => $stack,
-            'auth' => 'oauth'
+            'auth' => 'oauth',
         ]);
 
-        $fields = $fields ? ','.$fields : '';
+        $fields = $fields ? ',' . $fields : '';
         $userId = Craft::parseEnv(TweetFeed::$plugin->getSettings()->userId);
 
         $response = $client->get("users/{$userId}/tweets?max_results={$amount}&tweet.fields=entities{$fields}{$parameters}");

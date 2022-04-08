@@ -31,7 +31,7 @@ class Settings extends Model
             'parser' => [
                 'class' => EnvAttributeParserBehavior::class,
                 'attributes' => ['apiKey', 'apiKeySecret', 'token', 'tokenSecret', 'userId'],
-            ]
+            ],
         ];
     }
 }
