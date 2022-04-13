@@ -14,6 +14,7 @@ use Craft;
 use craft\base\Component;
 use craft\helpers\Json;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
 use percipiolondon\tweetfeed\TweetFeed;
@@ -31,6 +32,10 @@ class TweetService extends Component
 
     /*
      * @return mixed
+     */
+    /**
+     * @throws Exception
+     * @throws GuzzleException
      */
     public function getTweets($amount = 100, $fields = null, $parameters = '')
     {

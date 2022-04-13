@@ -7,11 +7,11 @@ use craft\behaviors\EnvAttributeParserBehavior;
 
 class Settings extends Model
 {
-    public $apiKey;
-    public $apiKeySecret;
-    public $token;
-    public $tokenSecret;
-    public $userId;
+    public string $apiKey;
+    public string $apiKeySecret;
+    public string $token;
+    public string $tokenSecret;
+    public int $userId;
 
     public function rules(): array
     {
