@@ -43,8 +43,8 @@
         "handle": "tweetfeed",
         "developer": "percipiolondon",
         "developerUrl": "https://percipio.london",
-        "documentationUrl": "https://github.com/percipioglobal/craft-tweet-feed/blob/master/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/percipioglobal/craft-tweet-feed/master/CHANGELOG.md",
+        "documentationUrl": "https://github.com/percipioglobal/craft-tweet-feed/blob/v4/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/percipioglobal/craft-tweet-feed/v4/CHANGELOG.md",
         "class": "percipiolondon\\tweetfeed\\TweetFeed"
     },
     "scripts": {
