@@ -17,6 +17,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use percipiolondon\tweetfeed\models\Settings;
 use percipiolondon\tweetfeed\TweetFeed;
 use yii\base\Exception;
 
@@ -25,10 +26,25 @@ use yii\base\Exception;
  * @package   Tweet
  * @since     1.0.0
  */
+
+/**
+ * @property-read Settings $settings
+ * @method Settings getSettings()
+ */
 class TweetService extends Component
 {
     // Public Methods
     // =========================================================================
+
+    /**
+     * @var Settings
+     */
+    private Settings $settings;
+
+    public function init(): void
+    {
+        $this->settings = Tweetfeed::$plugin->getSettings();
+    }
 
     /*
      * @return mixed
@@ -37,26 +53,24 @@ class TweetService extends Component
      * @throws Exception
      * @throws GuzzleException
      */
-    public function getTweets($amount = 100, $fields = null, $parameters = '')
+    public function getTweets(int $amount = 100, mixed $fields = null, string $parameters = '')
     {
         //https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
         $stack = HandlerStack::create();
 
         if (
-            empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKey)) ||
-            empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKeySecret)) ||
-            empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->token)) ||
-            empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->tokenSecret)) ||
-            empty(Craft::parseEnv(TweetFeed::$plugin->getSettings()->userId))
-        ) {
-            throw new Exception("Not all keys and tokens are provided in the settings");
-        }
+            empty(Craft::parseEnv($this->settings->apiKey)) ||
+            empty(Craft::parseEnv($this->settings->apiKeySecret)) ||
+            empty(Craft::parseEnv($this->settings->token)) ||
+            empty(Craft::parseEnv($this->settings->tokenSecret)) ||
+            empty(Craft::parseEnv($this->settings->userId))
+        ) throw new Exception("Not all keys and tokens are provided in the settings");
 
         $middleware = new Oauth1([
-            'consumer_key' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKey),
-            'consumer_secret' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->apiKeySecret),
-            'token' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->token),
-            'token_secret' => Craft::parseEnv(TweetFeed::$plugin->getSettings()->tokenSecret)
+            'consumer_key' => Craft::parseEnv($this->settings->apiKey),
+            'consumer_secret' => Craft::parseEnv($this->settings->apiKeySecret),
+            'token' => Craft::parseEnv($this->settings->token),
+            'token_secret' => Craft::parseEnv($this->settings->tokenSecret)
         ]);
         $stack->push($middleware);
 
@@ -67,7 +81,7 @@ class TweetService extends Component
         ]);
 
         $fields = $fields ? ',' . $fields : '';
-        $userId = Craft::parseEnv(TweetFeed::$plugin->getSettings()->userId);
+        $userId = Craft::parseEnv($this->settings->userId);
 
         $response = $client->get("users/{$userId}/tweets?max_results={$amount}&tweet.fields=entities{$fields}{$parameters}");
 

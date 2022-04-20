@@ -11,13 +11,16 @@
 namespace percipiolondon\tweetfeed;
 
 use Craft;
-use craft\base\Model;
 use craft\base\Plugin;
 use craft\web\twig\variables\CraftVariable;
 use percipiolondon\tweetfeed\models\Settings;
 use percipiolondon\tweetfeed\services\TweetService;
 use percipiolondon\tweetfeed\variables\TweetVariable;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use yii\base\Event;
+use yii\base\Exception;
 
 /**
  * Class TweetFeed
@@ -27,6 +30,9 @@ use yii\base\Event;
  * @since     1.0.0
  *
  * @property  TweetService $tweet
+ * @property Settings $settings
+ *
+ * @method Settings getSettings()
  */
 class TweetFeed extends Plugin
 {
@@ -36,7 +42,7 @@ class TweetFeed extends Plugin
     /**
      * @var TweetFeed
      */
-    public static $plugin;
+    public static TweetFeed $plugin;
 
     // Public Properties
     // =========================================================================
@@ -56,13 +62,18 @@ class TweetFeed extends Plugin
      */
     public bool $hasCpSection = false;
 
+    /**
+     * @var mixed|object|null
+     */
+    public mixed $tweets;
+
     // Public Methods
     // =========================================================================
 
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         self::$plugin = $this;
@@ -93,17 +104,32 @@ class TweetFeed extends Plugin
 
     // Protected Methods
     // =========================================================================
-    protected function createSettingsModel(): ?Model
+    /**
+     * Creates and returns the model used to store the plugin’s settings.
+     *
+     * @return Settings
+     */
+    protected function createSettingsModel(): Settings
     {
         return new Settings();
     }
 
-    protected function settingsHtml(): string
+    /**
+     * Returns the rendered settings HTML, which will be inserted into the content
+     * block on the settings page.
+     *
+     * @return string|null The rendered settings HTML
+     * @throws Exception
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function settingsHtml(): ?string
     {
         return Craft::$app->view->renderTemplate(
             'tweetfeed/settings',
             [
-                'settings' => $this->getSettings(),
+                'settings' => $this->settings,
             ]
         );
     }
