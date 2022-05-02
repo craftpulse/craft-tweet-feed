@@ -22,7 +22,13 @@ class TweetVariable
     // Public Methods
     // =========================================================================
 
-    public function tweets($amount = 100, $fields = null, $params = null)
+    /**
+     * @param int $amount
+     * @param mixed $fields
+     * @param string $params
+     * @return array
+     */
+    public function tweets(int $amount = 100, mixed $fields = null, string $params = ''): array
     {
         //The max_results expects a number between 5 and 100
         $count = $amount;
