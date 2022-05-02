@@ -29,8 +29,8 @@ use yii\base\Exception;
  * @package   TweetFeed
  * @since     1.0.0
  *
- * @property  TweetService $tweet
- * @property Settings $settings
+ * @property  TweetService $tweets
+ * @property  Settings $settings
  *
  * @method Settings getSettings()
  */
@@ -62,16 +62,12 @@ class TweetFeed extends Plugin
      */
     public bool $hasCpSection = false;
 
-    /**
-     * @var mixed|object|null
-     */
-    public mixed $tweets;
-
     // Public Methods
     // =========================================================================
 
+
     /**
-     * @inheritdoc
+     * init
      */
     public function init(): void
     {
