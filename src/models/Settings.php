@@ -13,32 +13,33 @@ use craft\behaviors\EnvAttributeParserBehavior;
 class Settings extends Model
 {
     /**
-     * @var string
+     * @var string|null
      */
-    public string $apiKey;
+    public string|null $apiKey = null;
+
+    /**
+     * @var string|null
+     */
+    public string|null $apiKeySecret = null;
+
+    /**
+     * @var string|null
+     */
+    public string|null $token = null;
 
     /**
      * @var string
      */
-    public string $apiKeySecret;
+    public string|null $tokenSecret = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    public string $token;
+    public string|null $userId = null;
+
 
     /**
-     * @var string
-     */
-    public string $tokenSecret;
-
-    /**
-     * @var string
-     */
-    public string $userId;
-
-    /**
-     * @inheritdoc
+     * @return array
      */
     protected function defineRules(): array
     {
@@ -48,16 +49,20 @@ class Settings extends Model
         ];
     }
 
+
     /**
-     * @inheritdoc
+     * @return array
      */
     public function behaviors(): array
     {
-        return [
+        // Keep any parent behaviors
+        $behaviors = parent::behaviors();
+
+        return array_merge($behaviors, [
             'parser' => [
                 'class' => EnvAttributeParserBehavior::class,
                 'attributes' => ['apiKey', 'apiKeySecret', 'token', 'tokenSecret', 'userId'],
             ],
-        ];
+        ]);
     }
 }
