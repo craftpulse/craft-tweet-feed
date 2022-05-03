@@ -10,8 +10,8 @@
 
 namespace percipiolondon\tweetfeed\services;
 
-use Craft;
 use craft\base\Component;
+use craft\helpers\App;
 use craft\helpers\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -41,37 +41,44 @@ class TweetService extends Component
      */
     private Settings $settings;
 
+    /**
+     * init
+     */
     public function init(): void
     {
         $this->settings = Tweetfeed::$plugin->getSettings();
     }
 
-    /*
-     * @return mixed
-     */
     /**
+     * @param int $amount
+     * @param mixed|null $fields
+     * @param string $parameters
+     * @return array
      * @throws Exception
      * @throws GuzzleException
      */
-    public function getTweets(int $amount = 100, mixed $fields = null, string $parameters = '')
+    public function getTweets(int $amount = 100, mixed $fields = null, string $parameters = ''): array
     {
         //https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
         $stack = HandlerStack::create();
 
         if (
-            empty(Craft::parseEnv($this->settings->apiKey)) ||
-            empty(Craft::parseEnv($this->settings->apiKeySecret)) ||
-            empty(Craft::parseEnv($this->settings->token)) ||
-            empty(Craft::parseEnv($this->settings->tokenSecret)) ||
-            empty(Craft::parseEnv($this->settings->userId))
-        ) throw new Exception("Not all keys and tokens are provided in the settings");
+            empty(App::parseEnv($this->settings->apiKey)) ||
+            empty(App::parseEnv($this->settings->apiKeySecret)) ||
+            empty(App::parseEnv($this->settings->token)) ||
+            empty(App::parseEnv($this->settings->tokenSecret)) ||
+            empty(App::parseEnv($this->settings->userId))
+        ) {
+            throw new Exception("Not all keys and tokens are provided in the settings");
+        }
 
         $middleware = new Oauth1([
-            'consumer_key' => Craft::parseEnv($this->settings->apiKey),
-            'consumer_secret' => Craft::parseEnv($this->settings->apiKeySecret),
-            'token' => Craft::parseEnv($this->settings->token),
-            'token_secret' => Craft::parseEnv($this->settings->tokenSecret)
+            'consumer_key' => App::parseEnv($this->settings->apiKey),
+            'consumer_secret' => App::parseEnv($this->settings->apiKeySecret),
+            'token' => App::parseEnv($this->settings->token),
+            'token_secret' => App::parseEnv($this->settings->tokenSecret),
         ]);
+
         $stack->push($middleware);
 
         $client = new Client([
@@ -81,7 +88,7 @@ class TweetService extends Component
         ]);
 
         $fields = $fields ? ',' . $fields : '';
-        $userId = Craft::parseEnv($this->settings->userId);
+        $userId = App::parseEnv($this->settings->userId);
 
         $response = $client->get("users/{$userId}/tweets?max_results={$amount}&tweet.fields=entities{$fields}{$parameters}");
 
