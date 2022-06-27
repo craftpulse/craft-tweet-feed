@@ -5,33 +5,64 @@ namespace percipiolondon\tweetfeed\models;
 use craft\base\Model;
 use craft\behaviors\EnvAttributeParserBehavior;
 
+/**
+ * percipiolondon\tweetfeed\models\Settings
+ *
+ * @property string $apiKey
+ */
 class Settings extends Model
 {
-    public $apiKey;
-    public $apiKeySecret;
-    public $token;
-    public $tokenSecret;
-    public $userId;
+    /**
+     * @var string|null
+     */
+    public string|null $apiKey = null;
 
-    public function rules()
+    /**
+     * @var string|null
+     */
+    public string|null $apiKeySecret = null;
+
+    /**
+     * @var string|null
+     */
+    public string|null $token = null;
+
+    /**
+     * @var string
+     */
+    public string|null $tokenSecret = null;
+
+    /**
+     * @var string|null
+     */
+    public string|null $userId = null;
+
+
+    /**
+     * @return array
+     */
+    protected function defineRules(): array
     {
         return [
             [['apiKey', 'apiKeySecret', 'token', 'tokenSecret', 'userId'], 'required'],
-            [['apiKey', 'apiKeySecret', 'token', 'tokenSecret'], 'string', 'max' => 255],
-            [['userId'], 'integer'],
+            [['apiKey', 'apiKeySecret', 'token', 'tokenSecret', 'userId'], 'string', 'max' => 255],
         ];
     }
 
+
     /**
-     * @inheritdoc
+     * @return array
      */
     public function behaviors(): array
     {
-        return [
+        // Keep any parent behaviors
+        $behaviors = parent::behaviors();
+
+        return array_merge($behaviors, [
             'parser' => [
                 'class' => EnvAttributeParserBehavior::class,
                 'attributes' => ['apiKey', 'apiKeySecret', 'token', 'tokenSecret', 'userId'],
-            ]
-        ];
+            ],
+        ]);
     }
 }

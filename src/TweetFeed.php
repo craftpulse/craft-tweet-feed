@@ -10,15 +10,17 @@
 
 namespace percipiolondon\tweetfeed;
 
-use percipiolondon\tweetfeed\models\Settings;
-use percipiolondon\tweetfeed\services\TweetService;
-use percipiolondon\tweetfeed\variables\TweetVariable;
-
 use Craft;
 use craft\base\Plugin;
 use craft\web\twig\variables\CraftVariable;
-
+use percipiolondon\tweetfeed\models\Settings;
+use percipiolondon\tweetfeed\services\TweetService;
+use percipiolondon\tweetfeed\variables\TweetVariable;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use yii\base\Event;
+use yii\base\Exception;
 
 /**
  * Class TweetFeed
@@ -27,7 +29,10 @@ use yii\base\Event;
  * @package   TweetFeed
  * @since     1.0.0
  *
- * @property  TweetService $tweet
+ * @property  TweetService $tweets
+ * @property  Settings $settings
+ *
+ * @method Settings getSettings()
  */
 class TweetFeed extends Plugin
 {
@@ -37,7 +42,7 @@ class TweetFeed extends Plugin
     /**
      * @var TweetFeed
      */
-    public static $plugin;
+    public static TweetFeed $plugin;
 
     // Public Properties
     // =========================================================================
@@ -45,25 +50,26 @@ class TweetFeed extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public string $schemaVersion = '1.0.0';
 
     /**
      * @var bool
      */
-    public $hasCpSettings = true;
+    public bool $hasCpSettings = true;
 
     /**
      * @var bool
      */
-    public $hasCpSection = false;
+    public bool $hasCpSection = false;
 
     // Public Methods
     // =========================================================================
 
+
     /**
-     * @inheritdoc
+     * init
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         self::$plugin = $this;
@@ -71,7 +77,7 @@ class TweetFeed extends Plugin
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event) {
+            function(Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('tweetfeed', TweetVariable::class);
@@ -94,17 +100,32 @@ class TweetFeed extends Plugin
 
     // Protected Methods
     // =========================================================================
-    protected function createSettingsModel()
+    /**
+     * Creates and returns the model used to store the plugin’s settings.
+     *
+     * @return Settings
+     */
+    protected function createSettingsModel(): Settings
     {
         return new Settings();
     }
 
-    protected function settingsHtml(): string
+    /**
+     * Returns the rendered settings HTML, which will be inserted into the content
+     * block on the settings page.
+     *
+     * @return string|null The rendered settings HTML
+     * @throws Exception
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function settingsHtml(): ?string
     {
         return Craft::$app->view->renderTemplate(
             'tweetfeed/settings',
             [
-                'settings' => $this->getSettings()
+                'settings' => $this->settings,
             ]
         );
     }

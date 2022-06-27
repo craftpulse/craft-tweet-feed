@@ -2,17 +2,18 @@
     "name": "percipiolondon/craft-tweet-feed",
     "description": "Get the latest tweets from a Twitter handle with your own design",
     "type": "craft-plugin",
-    "version": "1.0.2",
+    "version": "4.0.0",
     "keywords": [
         "craft",
         "cms",
         "craftcms",
         "craft-plugin",
-        "tweetfeed"
+        "tweets",
+        "twitter"
     ],
     "support": {
         "email": "support@percipio.london",
-        "docs": "https://github.com/percipioglobal/craft-tweet-feed/blob/master/README.md",
+        "docs": "https://github.com/percipioglobal/craft-tweet-feed/blob/v4/README.md",
         "issues": "https://github.com/percipioglobal/craft-tweet-feed/issues"
     },
     "license": "MIT",
@@ -22,13 +23,19 @@
             "homepage": "https://percipio.london"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "craftcms/cms": "^3.5.0",
+        "php": "^8.0.2",
+        "craftcms/cms": "^4.0.0-beta.1",
         "guzzlehttp/oauth-subscriber": "^0.6.0"
+    },
+    "require-dev": {
+        "craftcms/phpstan": "dev-main"
     },
     "autoload": {
         "psr-4": {
-          "percipiolondon\\tweetfeed\\": "src/"
+            "percipiolondon\\tweetfeed\\": "src/"
         }
     },
     "extra": {
@@ -36,8 +43,17 @@
         "handle": "tweetfeed",
         "developer": "percipiolondon",
         "developerUrl": "https://percipio.london",
-        "documentationUrl": "https://github.com/percipioglobal/craft-tweet-feed/blob/master/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/percipioglobal/craft-tweet-feed/master/CHANGELOG.md",
+        "documentationUrl": "https://github.com/percipioglobal/craft-tweet-feed/blob/v4/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/percipioglobal/craft-tweet-feed/v4/CHANGELOG.md",
         "class": "percipiolondon\\tweetfeed\\TweetFeed"
+    },
+    "scripts": {
+        "phpstan": "phpstan --memory-limit=1G"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
     }
 }
