@@ -15,6 +15,7 @@ use craft\base\Plugin;
 use craft\web\twig\variables\CraftVariable;
 use percipiolondon\tweetfeed\models\Settings;
 use percipiolondon\tweetfeed\services\TweetService;
+use percipiolondon\tweetfeed\twigextensions\TweetExtension;
 use percipiolondon\tweetfeed\variables\TweetVariable;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -83,6 +84,11 @@ class TweetFeed extends Plugin
                 $variable->set('tweetfeed', TweetVariable::class);
             }
         );
+
+        if (Craft::$app->request->getIsSiteRequest()) {
+            $tweetExtension = new TweetExtension();
+            Craft::$app->view->registerTwigExtension($tweetExtension);
+        }
 
         $this->setComponents([
             'tweets' => TweetService::class,
