@@ -12,6 +12,7 @@ namespace percipiolondon\tweetfeed;
 
 use percipiolondon\tweetfeed\models\Settings;
 use percipiolondon\tweetfeed\services\TweetService;
+use percipiolondon\tweetfeed\twigextensions\TweetExtension;
 use percipiolondon\tweetfeed\variables\TweetVariable;
 
 use Craft;
@@ -77,6 +78,11 @@ class TweetFeed extends Plugin
                 $variable->set('tweetfeed', TweetVariable::class);
             }
         );
+
+        if (Craft::$app->request->getIsSiteRequest()) {
+            $tweetExtension = new TweetExtension();
+            Craft::$app->view->registerTwigExtension($tweetExtension);
+        }
 
         $this->setComponents([
             'tweets' => TweetService::class,

@@ -69,7 +69,19 @@ To provide these parameters for our plugin, use the following example. You can t
 
 {% for tweet in tweets %}
    <div>
-       <h3>{{ tweet.text }}</h3>
+       <h3>{{- tweet.text -}}</h3>
+   </div>
+{% endfor %}
+```
+
+#### urlify twig extension filter
+If you want to parse the URLs and hashtags into clickable urls, you can use the `| urlify` filter. You need to pass down the full object to get the filtered tweet text back.
+```
+{% set tweets = craft.tweetfeed.tweets(3,'author_id,context_annotations','&exclude=retweets,replies&user.fields=id') %}
+
+{% for tweet in tweets %}
+   <div>
+       <h3>{{- tweet | urlify | raw -}}</h3>
    </div>
 {% endfor %}
 ```
@@ -84,7 +96,7 @@ For example:
    
    {% for tweet in tweets %}
       <div>
-          <h3>{{ tweet.text }}</h3>
+          <h3>{{- tweet.text -}}</h3>
       </div>
    {% endfor %}
 {% endcache %}
