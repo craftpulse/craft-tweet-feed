@@ -1,4 +1,4 @@
-# Tweet Feed plugin for Craft CMS 3.x
+# Tweet Feed plugin for Craft CMS 4.x
 
 Get the latest tweets from a Twitter handle with your own design
 
