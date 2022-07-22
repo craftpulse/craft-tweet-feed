@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.1.0.1 - 2022-07-22
+### Fixed
+- Fixed the Undefined array key if there aren't any urls or hashtags
+
 ## 4.1.0 - 2022-07-14
 ### Added
 - Added a `| urlify` twig extension filter to parse all the urls and hashtags in a tweet

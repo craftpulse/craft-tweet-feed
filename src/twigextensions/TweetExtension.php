@@ -39,17 +39,21 @@ class TweetExtension extends AbstractExtension
         $tweetText = $tweet['text'] ?? '';
 
         // convert urls to anchors
-        foreach($this->_unique_array($tweet['entities']['urls'], 'url') as $url) {
-            $url = $url['url'];
-            $href = '<a href="'.$url.'" target="_blank" rel="nofollow noopener">'.$url.'</a>';
-            $tweetText =  str_replace($url, $href, $tweetText);
+        if($tweet['entities']['urls'] ?? null) {
+            foreach($this->_unique_array($tweet['entities']['urls'], 'url') as $url) {
+                $url = $url['url'];
+                $href = '<a href="'.$url.'" target="_blank" rel="nofollow noopener">'.$url.'</a>';
+                $tweetText =  str_replace($url, $href, $tweetText);
+            }
         }
 
         // convert hashtags to anchors
-        foreach($this->_unique_array($tweet['entities']['hashtags'], 'tag') as $hashtags) {
-            $hashtags = $hashtags['tag'];
-            $href = '<a href="https://twitter.com/search?q='.$hashtags.'&src=typed_query" target="_blank" rel="nofollow noopener">#'.$hashtags.'</a>';
-            $tweetText =  str_replace('#'.$hashtags, $href, $tweetText);
+        if($tweet['entities']['hashtags'] ?? null) {
+            foreach($this->_unique_array($tweet['entities']['hashtags'], 'tag') as $hashtags) {
+                $hashtags = $hashtags['tag'];
+                $href = '<a href="https://twitter.com/search?q='.$hashtags.'&src=typed_query" target="_blank" rel="nofollow noopener">#'.$hashtags.'</a>';
+                $tweetText =  str_replace('#'.$hashtags, $href, $tweetText);
+            }
         }
 
         return $tweetText;
