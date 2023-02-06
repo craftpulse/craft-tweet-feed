@@ -59,39 +59,44 @@ class TweetService extends Component
      */
     public function getTweets(int $amount = 100, mixed $fields = null, string $parameters = ''): array
     {
-        //https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
-        $stack = HandlerStack::create();
+        try {
+            //https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/tweet
+            $stack = HandlerStack::create();
 
-        if (
-            empty(App::parseEnv($this->settings->apiKey)) ||
-            empty(App::parseEnv($this->settings->apiKeySecret)) ||
-            empty(App::parseEnv($this->settings->token)) ||
-            empty(App::parseEnv($this->settings->tokenSecret)) ||
-            empty(App::parseEnv($this->settings->userId))
-        ) {
-            throw new Exception("Not all keys and tokens are provided in the settings");
+            if (
+                empty(App::parseEnv($this->settings->apiKey)) ||
+                empty(App::parseEnv($this->settings->apiKeySecret)) ||
+                empty(App::parseEnv($this->settings->token)) ||
+                empty(App::parseEnv($this->settings->tokenSecret)) ||
+                empty(App::parseEnv($this->settings->userId))
+            ) {
+                throw new Exception('Not all keys and tokens are provided in the settings');
+            }
+
+            $middleware = new Oauth1([
+                'consumer_key' => App::parseEnv($this->settings->apiKey),
+                'consumer_secret' => App::parseEnv($this->settings->apiKeySecret),
+                'token' => App::parseEnv($this->settings->token),
+                'token_secret' => App::parseEnv($this->settings->tokenSecret),
+            ]);
+
+            $stack->push($middleware);
+
+            $client = new Client([
+                'base_uri' => 'https://api.twitter.com/2/',
+                'handler' => $stack,
+                'auth' => 'oauth',
+            ]);
+
+            $fields = $fields ? ',' . $fields : '';
+            $userId = App::parseEnv($this->settings->userId);
+
+            $response = $client->get("users/{$userId}/tweets?max_results={$amount}&tweet.fields=entities{$fields}{$parameters}");
+
+            return Json::decodeIfJson($response->getBody()->getContents(), true);
+        } catch (GuzzleException $e) {
+            \Craft::error($e->getMessage());
+            return [];
         }
-
-        $middleware = new Oauth1([
-            'consumer_key' => App::parseEnv($this->settings->apiKey),
-            'consumer_secret' => App::parseEnv($this->settings->apiKeySecret),
-            'token' => App::parseEnv($this->settings->token),
-            'token_secret' => App::parseEnv($this->settings->tokenSecret),
-        ]);
-
-        $stack->push($middleware);
-
-        $client = new Client([
-            'base_uri' => 'https://api.twitter.com/2/',
-            'handler' => $stack,
-            'auth' => 'oauth',
-        ]);
-
-        $fields = $fields ? ',' . $fields : '';
-        $userId = App::parseEnv($this->settings->userId);
-
-        $response = $client->get("users/{$userId}/tweets?max_results={$amount}&tweet.fields=entities{$fields}{$parameters}");
-
-        return Json::decodeIfJson($response->getBody()->getContents(), true);
     }
 }
