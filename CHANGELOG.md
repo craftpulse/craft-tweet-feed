@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.2.0 - 2023-02-06
+### Fixed
+- Added a try catch around the Guzzle connection for unauthorized connection
+
 ## 4.1.0.1 - 2022-07-22
 ### Fixed
 - Fixed the Undefined array key if there aren't any urls or hashtags
