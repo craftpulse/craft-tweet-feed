@@ -1,5 +1,5 @@
 {
-    "name": "percipiolondon/craft-tweet-feed",
+    "name": "craftpulse/craft-tweet-feed",
     "description": "Get the latest tweets from a Twitter handle with your own design",
     "type": "craft-plugin",
     "version": "4.2.0",
